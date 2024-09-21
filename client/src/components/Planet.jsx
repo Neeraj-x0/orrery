@@ -1,14 +1,15 @@
 import React from 'react';
 import { useGLTF } from '@react-three/drei';
 
-const Planet = (props) => {
-    const { nodes, materials } = useGLTF('/planets/sun.glb'); // Adjust the path to your model
-
+const Planet = ({ modelPath, meshName, materialName, ...props }) => {
+    const { nodes, materials } = useGLTF(modelPath); // Adjust the path to your model
+    console.log({modelPath}, nodes, materials);
+    
     return (
         <group {...props} dispose={null}>
             <mesh
-                geometry={nodes.Cube001.geometry} // Replace with your mesh name
-                material={materials.None} // Replace with your material name
+                geometry={nodes[meshName].geometry} // Replace with your mesh name
+                material={materials[materialName]} // Replace with your material name
             />
         </group>
     );
