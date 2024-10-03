@@ -1,21 +1,15 @@
 * {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html, body {
-  height: 100%; /* Ensure body takes full height */
-  overflow: hidden; /* Prevent scrolling */
-  background-color: black;
-}
-
-#root {
-  height: 100%; /* Ensure the root element takes full height */
+body, html {
+  height: 100%;
+  width: 100%;
 }
 
 canvas {
-  display: block; /* Prevents extra space below the canvas */
-  height: 100vh; /* Set the canvas height to 100vh */
-  width: 100vw; /* Ensure canvas takes full width */
+  border: 1px solid black;
+  height: 50vh;
 }
