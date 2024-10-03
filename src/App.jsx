@@ -1,23 +1,26 @@
 import { Canvas } from "@react-three/fiber";
 import "./App.css";
-import TexturedSphere from "./components/TexturedSphere";
+import Planets from "./components/CelestialBody/Planets/Planets";
 import { Suspense } from "react";
 import { OrbitControls } from "@react-three/drei";
+import Sun from "./components/CelestialBody/Planets/Sun/Sun";
 
 function App() {
   return (
     <>
-      <Canvas>
-        <OrbitControls />
-        {/* Add ambient light for some soft lighting */}
-        <ambientLight intensity={0.5} />
-        {/* Add directional light to illuminate the sphere */}
-        <directionalLight position={[0, 10, 5]} intensity={1.5} />
+      <Canvas camera={{ fov: 50, position: [0, 0, 5] }}>
+        <OrbitControls autoRotate={true}/>
         <Suspense fallback={null}>
-          <TexturedSphere
-            textureUrl="/textures/2k_jupiter.jpg"
+          <Sun textureUrl="/textures/2k_sun.jpg" radius={1} />
+          <Planets
+            textureUrl="/textures/2k_earth_daymap.jpg"
             radius={1}
-            position={[0, 0, 0]}
+            position={[3, 3, 0]}
+          />
+          <Planets
+            textureUrl="/textures/2k_mercury.jpg"
+            radius={1}
+            position={[-3, -3, 0]}
           />
         </Suspense>
       </Canvas>
