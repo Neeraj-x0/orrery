@@ -1,16 +1,25 @@
 import React from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Suspense } from "react";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, Stars } from "@react-three/drei";
 import Sun from "./components/CelestialBody/Planets/Sun/Sun";
 import Planets from "./components/CelestialBody/Planets/Planets";
+
 
 const Orrery = () => {
   return (
     <>
       <Canvas camera={{ fov: 50, position: [0, 0, 30] }}>
-        <OrbitControls autoRotate={true} />
+        <OrbitControls />
         <Suspense fallback={null}>
+        <Stars
+          radius={100}        // Radius of the background sphere
+          depth={50}          // Depth of the star field
+          count={5000}        // Number of stars
+          factor={4}          // Star size
+          saturation={0}      // Star color saturation
+          fade={true}         // Fades star field at edges
+        />
           {/* Sun */}
           <Sun textureUrl="/textures/2k_sun.jpg" radius={1} />
 

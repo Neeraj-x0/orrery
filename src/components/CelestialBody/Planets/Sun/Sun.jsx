@@ -14,7 +14,7 @@ const Sun = ({ textureUrl, radius }) => {
         <sphereGeometry args={[radius, 64, 64]} />
         <meshStandardMaterial map={texture} />
       </mesh>
-      <pointLight position={sunRef.current ? sunRef.current.position.toArray() : [0, 0, 0]} intensity={50} decay={2} />
+      <pointLight position={sunRef.current ? sunRef.current.position.toArray() : [0, 0, 0]} intensity={50} decay={1.1} />
     </>
   );
 };
