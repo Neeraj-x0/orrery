@@ -1,32 +1,49 @@
-import React from "react";
-import './Planets.css';
-import { useLoader } from "@react-three/fiber";
-import { TextureLoader } from "three";
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import { Line } from "@react-three/drei";
+import * as THREE from "three";
 
-export default function Planets({ textureUrl, radius, position }) {
-  // Load the texture using the useLoader hook
-  const texture = useLoader(TextureLoader, textureUrl);
-  // const ringsTexture = useLoader(TextureLoader, '/textures/2k_saturn_ring_alpha.png');
+function Planets({ textureUrl, radius, semiMajorAxis, eccentricity, orbitalPeriod }) {
+  const planetRef = useRef();
 
-  // Set anisotropy to improve texture rendering at oblique angles
-  texture.anisotropy = 16; // Set this to the maximum your GPU supports (typically 8 or 16)
-  // ringsTexture.anisotropy = 16; // Set this to the maximum your GPU supports (typically 8 or 16)
+  // Calculate the points for the orbit
+  const orbitPoints = [];
+  for (let i = 0; i <= 100; i++) {
+    const angle = (i / 100) * 2 * Math.PI;
+    const distance = semiMajorAxis * (1 - eccentricity ** 2) / (1 + eccentricity * Math.cos(angle));
+    const x = distance * Math.cos(angle);
+    const z = distance * Math.sin(angle);
+    orbitPoints.push(new THREE.Vector3(x, 0, z));
+  }
+
+  useFrame(({ clock }) => {
+    const elapsedTime = clock.getElapsedTime();
+    const angle = (elapsedTime / orbitalPeriod) * 2 * Math.PI;
+    const distance = semiMajorAxis * (1 - eccentricity ** 2) / (1 + eccentricity * Math.cos(angle));
+    const x = distance * Math.cos(angle);
+    const z = distance * Math.sin(angle);
+
+    if (planetRef.current) {
+      planetRef.current.position.set(x, 0, z); // Update planet position along orbit
+    }
+  });
 
   return (
     <>
-    
-      <mesh position={position}>
-        <sphereGeometry args={[radius, 64, 64]} />
-        <meshStandardMaterial map={texture} />
+      {/* Orbit Wireframe */}
+      <Line
+        points={orbitPoints} // The calculated points forming the orbit
+        color="white"         // Orbit color
+        lineWidth={1}         // Line thickness
+      />
+      
+      {/* Planet */}
+      <mesh ref={planetRef}>
+        <sphereGeometry args={[radius, 32, 32]} />
+        <meshStandardMaterial map={new THREE.TextureLoader().load(textureUrl)} />
       </mesh>
-      {/* <mesh rotation-x={-Math.PI / 2} position={[0, 0, 0]}>
-        <cylinderGeometry args={[1.5, 1.5, 0.01, 64]} />{" "}
-        <meshStandardMaterial
-          map={ringsTexture}
-          transparent={true}
-          opacity={0.7}
-        />
-      </mesh> */}
     </>
   );
 }
+
+export default Planets;
