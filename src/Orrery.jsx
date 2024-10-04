@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { OrbitControls, Stars } from "@react-three/drei";
 import Sun from "./components/CelestialBody/Planets/Sun/Sun";
 import Planets from "./components/CelestialBody/Planets/Planets";
-
+import GalaxyBackground from './components/GalaxyBackground/GalaxyBackground';
 
 const Orrery = () => {
   return (
@@ -12,14 +12,8 @@ const Orrery = () => {
       <Canvas camera={{ fov: 50, position: [0, 0, 30] }}>
         <OrbitControls />
         <Suspense fallback={null}>
-        <Stars
-          radius={100}        // Radius of the background sphere
-          depth={50}          // Depth of the star field
-          count={5000}        // Number of stars
-          factor={4}          // Star size
-          saturation={0}      // Star color saturation
-          fade={true}         // Fades star field at edges
-        />
+          {/* <ambientLight intensity={0.3} /> */}
+          <GalaxyBackground textureUrl="/textures/8k_stars_milky_way.jpg" radius={200} />
           {/* Sun */}
           <Sun textureUrl="/textures/2k_sun.jpg" radius={1} />
 
