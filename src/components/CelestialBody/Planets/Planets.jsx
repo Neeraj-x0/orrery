@@ -1,10 +1,11 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Line } from "@react-three/drei";
+import { Line, Html } from "@react-three/drei";
 import * as THREE from "three";
-
-function Planets({ textureUrl, radius, semiMajorAxis, eccentricity, orbitalPeriod }) {
+import "./Planets.css";
+function Planets({ textureUrl, radius, semiMajorAxis, eccentricity, orbitalPeriod, name }) {
   const planetRef = useRef();
+  const [hovered, setHovered] = useState(false);
 
   // Calculate the points for the orbit
   const orbitPoints = [];
@@ -38,9 +39,23 @@ function Planets({ textureUrl, radius, semiMajorAxis, eccentricity, orbitalPerio
       />
       
       {/* Planet */}
-      <mesh ref={planetRef}>
+      <mesh
+        ref={planetRef}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+      >
         <sphereGeometry args={[radius, 32, 32]} />
         <meshStandardMaterial map={new THREE.TextureLoader().load(textureUrl)} />
+        {hovered && (
+          <Html position={[0, radius + 0.5, 0]} center>
+            <div className="popup" >
+              {name} <br />
+              Radius: {radius} <br />
+              Distance from Sun: {semiMajorAxis} <br />
+              Orbital Period: {orbitalPeriod}
+            </div>
+          </Html>
+        )}
       </mesh>
     </>
   );

@@ -24,6 +24,7 @@ const Orrery = () => {
             semiMajorAxis={3}
             eccentricity={0.2056}
             orbitalPeriod={88}
+            name={"Mercury"}
           />
 
           {/* Venus */}
@@ -33,6 +34,7 @@ const Orrery = () => {
             semiMajorAxis={4.5}
             eccentricity={0.0067}
             orbitalPeriod={224.7}
+            name={"Venus"}
           />
 
           {/* Earth */}
@@ -42,6 +44,7 @@ const Orrery = () => {
             semiMajorAxis={6}
             eccentricity={0.0167}
             orbitalPeriod={365.25}
+            name={"Earth"}
           />
 
           {/* Mars */}
@@ -51,6 +54,7 @@ const Orrery = () => {
             semiMajorAxis={8}
             eccentricity={0.0934}
             orbitalPeriod={687}
+            name={"Mars"}
           />
 
           {/* Jupiter */}
@@ -60,6 +64,7 @@ const Orrery = () => {
             semiMajorAxis={15}
             eccentricity={0.0489}
             orbitalPeriod={4331}
+            name={"Jupiter"}
           />
 
           {/* Saturn */}
@@ -69,6 +74,7 @@ const Orrery = () => {
             semiMajorAxis={20}
             eccentricity={0.0565}
             orbitalPeriod={10747}
+            name={"Saturn"}
           />
 
           {/* Uranus */}
@@ -78,6 +84,7 @@ const Orrery = () => {
             semiMajorAxis={25}
             eccentricity={0.0457}
             orbitalPeriod={30589}
+            name={"Uranus"}
           />
 
           {/* Neptune */}
@@ -87,6 +94,7 @@ const Orrery = () => {
             semiMajorAxis={30}
             eccentricity={0.0086}
             orbitalPeriod={59800}
+            name={"Neptune"}
           />
         </Suspense>
       </Canvas>
