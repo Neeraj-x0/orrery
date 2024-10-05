@@ -46,7 +46,6 @@ const Orrery = () => {
             orbitalPeriod={365.25}
             name={"Earth"}
           />
-
           {/* Mars */}
           <Planets
             textureUrl="/textures/2k_mars.jpg"
@@ -56,7 +55,6 @@ const Orrery = () => {
             orbitalPeriod={687}
             name={"Mars"}
           />
-
           {/* Jupiter */}
           <Planets
             textureUrl="/textures/2k_jupiter.jpg"
@@ -66,7 +64,6 @@ const Orrery = () => {
             orbitalPeriod={4331}
             name={"Jupiter"}
           />
-
           {/* Saturn */}
           <Planets
             textureUrl="/textures/2k_saturn.jpg"
@@ -76,7 +73,6 @@ const Orrery = () => {
             orbitalPeriod={10747}
             name={"Saturn"}
           />
-
           {/* Uranus */}
           <Planets
             textureUrl="/textures/2k_uranus.jpg"
@@ -86,7 +82,6 @@ const Orrery = () => {
             orbitalPeriod={30589}
             name={"Uranus"}
           />
-
           {/* Neptune */}
           <Planets
             textureUrl="/textures/2k_neptune.jpg"
