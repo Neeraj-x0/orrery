@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import { Line, Html } from "@react-three/drei";
+import { Line, Html, Text } from "@react-three/drei"; // Import Text
 import * as THREE from "three";
 import gsap from "gsap";
 import "./Planets.css";
@@ -26,18 +26,15 @@ function Planets({
 
   // Function to apply orbital rotations
   const applyOrbitalRotations = (x, y, z) => {
-    // Argument of periapsis rotation
     const xPeri =
       x * Math.cos(argumentOfPeriapsis) - y * Math.sin(argumentOfPeriapsis);
     const yPeri =
       x * Math.sin(argumentOfPeriapsis) + y * Math.cos(argumentOfPeriapsis);
 
-    // Inclination rotation
     const xIncl = xPeri;
     const yIncl = yPeri * Math.cos(inclination);
     const zIncl = yPeri * Math.sin(inclination);
 
-    // Longitude of ascending node rotation
     const xFinal =
       xIncl * Math.cos(longitudeOfAscendingNode) -
       yIncl * Math.sin(longitudeOfAscendingNode);
@@ -49,7 +46,6 @@ function Planets({
     return new THREE.Vector3(xFinal, zFinal, yFinal);
   };
 
-  // Calculate the points for the orbit using Keplerian parameters
   const orbitPoints = [];
   for (let i = 0; i <= 100; i++) {
     const trueAnomaly = (i / 100) * 2 * Math.PI;
@@ -68,14 +64,12 @@ function Planets({
     const elapsedTime = clock.getElapsedTime();
     const meanAnomaly = (elapsedTime / orbitalPeriod) * 2 * Math.PI;
 
-    // Solve Kepler's equation iteratively
     let eccentricAnomaly = meanAnomaly;
     for (let i = 0; i < 10; i++) {
       eccentricAnomaly =
         meanAnomaly + eccentricity * Math.sin(eccentricAnomaly);
     }
 
-    // Calculate true anomaly
     const trueAnomaly =
       2 *
       Math.atan(
@@ -83,7 +77,6 @@ function Planets({
           Math.tan(eccentricAnomaly / 2)
       );
 
-    // Calculate radius vector magnitude
     const r =
       (semiMajorAxis * (1 - eccentricity ** 2)) /
       (1 + eccentricity * Math.cos(trueAnomaly));
@@ -91,7 +84,6 @@ function Planets({
     let x = r * Math.cos(trueAnomaly);
     let y = r * Math.sin(trueAnomaly);
 
-    // Apply orbital rotations
     const position = applyOrbitalRotations(x, y, 0);
 
     if (planetRef.current) {
@@ -102,20 +94,20 @@ function Planets({
 
   const zoomToPlanet = () => {
     const planetPos = planetRef.current.position;
-    const offset = new THREE.Vector3(0, 1, 4); // Adjusted for a closer view
+    const offset = new THREE.Vector3(0, 1, 4);
     const targetPos = planetPos.clone().add(offset);
     gsap.to(camera.position, {
       x: targetPos.x,
       y: targetPos.y,
       z: targetPos.z,
-      duration: 1, // Smooth transition duration
+      duration: 1,
       onUpdate: () => {
         camera.lookAt(planetPos);
         gl.render();
       },
     });
   };
-  // Function to make the camera follow the planet
+
   const followPlanet = useRef(false);
   useFrame(({ clock }) => {
     if (followPlanet.current) {
@@ -127,20 +119,22 @@ function Planets({
       const x = distance * Math.cos(angle);
       const z = distance * Math.sin(angle);
       const planetPos = new THREE.Vector3(x, 0, z);
-      const offset = new THREE.Vector3(0, 1, 4); // Adjusted for a closer view
+      const offset = new THREE.Vector3(0, 1, 4);
       const targetPos = planetPos.clone().add(offset);
-      camera.position.lerp(targetPos, 0.1); // Smoothly interpolate the camera position
-      camera.lookAt(planetPos); // Keep the camera looking at the planet
+      camera.position.lerp(targetPos, 0.1);
+      camera.lookAt(planetPos);
     }
   });
+
   const handlePlanetClick = () => {
     followPlanet.current = true;
     zoomToPlanet();
   };
-  // Disable followPlanet when the mouse is moved
+
   const handleMouseMove = () => {
     followPlanet.current = false;
   };
+
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
@@ -154,8 +148,6 @@ function Planets({
 
       <group ref={planetRef}>
         <mesh
-          // onPointerOver={() => setHovered(true)}
-          // onPointerOut={() => setHovered(false)}
           onClick={handlePlanetClick}
         >
           <sphereGeometry args={[radius, 32, 32]} />
@@ -177,6 +169,18 @@ function Planets({
           )}
         </mesh>
 
+        {/* Text component for planet name */}
+        <Text
+          position={[0, radius + 0.5, 0]} // Adjust the position above the planet
+          fontSize={0.5} // Adjust the font size as needed
+          color="white" // Adjust the color as needed
+          anchorX="center" // Center text horizontally
+          anchorY="middle" // Center text vertically
+          rotation={[0, Math.PI / 2, 0]} // Rotate text to face the camera
+        >
+          {name}
+        </Text>
+
         {moons?.map((moon, index) => (
           <Moon
             key={index}
@@ -195,10 +199,10 @@ function Planets({
             textureUrl={neo.textureUrl}
             radius={neo.radius}
             semiMajorAxis={neo.semiMajorAxis}
-            eccentricity={neo.eccentricity} // Added eccentricity
-            inclination={neo.inclination} // Added inclination
-            longitudeOfAscendingNode={neo.longitudeOfAscendingNode} // Added longitudeOfAscendingNode
-            argumentOfPeriapsis={neo.argumentOfPeriapsis} // Added argumentOfPeriapsis
+            eccentricity={neo.eccentricity}
+            inclination={neo.inclination}
+            longitudeOfAscendingNode={neo.longitudeOfAscendingNode}
+            argumentOfPeriapsis={neo.argumentOfPeriapsis}
             orbitalPeriod={neo.orbitalPeriod}
             parentRef={planetRef}
             name={neo.name}

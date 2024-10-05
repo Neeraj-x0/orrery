@@ -98,10 +98,10 @@ function Neos({
       <Line
         points={orbitPoints} // The calculated points forming the orbit
         color="white" // Orbit color
-        lineWidth={0.5} // Line thickness
+        lineWidth={0.3} // Line thickness
         dashed={true} // Make the orbit dashed
-        dashSize={1} // Size of the dashes
-        gapSize={0.5} // Gap between dashes
+        dashSize={2} // Size of the dashes
+        gapSize={0.8} // Gap between dashes
       />
       <mesh ref={NeosRef}>
         <sphereGeometry args={[radius, 32, 32]} />
