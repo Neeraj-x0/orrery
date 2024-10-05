@@ -22,6 +22,7 @@ const Orrery = () => {
             textureUrl={planet.textureUrl}
             radius={planet.radius}
             semiMajorAxis={planet.semiMajorAxis}
+            inclination={planet.inclination}
             eccentricity={planet.eccentricity}
             orbitalPeriod={planet.orbitalPeriod}
             name={planet.name}

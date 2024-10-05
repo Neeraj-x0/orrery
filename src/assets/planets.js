@@ -1,186 +1,214 @@
-const planets =[
-    {
-      "name": "Mercury",
-      "textureUrl": "/textures/2k_mercury.jpg",
-      "radius": 0.3,
-      "semiMajorAxis": 3,
-      "eccentricity": 0.2056,
-      "orbitalPeriod": 88,
-      "moons": []
-    },
-    {
-      "name": "Venus",
-      "textureUrl": "/textures/2k_venus_surface.jpg",
-      "radius": 0.6,
-      "semiMajorAxis": 4.5,
-      "eccentricity": 0.0067,
-      "orbitalPeriod": 224.7,
-      "moons": []
-    },
-    {
-      "name": "Earth",
-      "textureUrl": "/textures/2k_earth_daymap.jpg",
-      "radius": 0.6,
-      "semiMajorAxis": 6,
-      "eccentricity": 0.0167,
-      "orbitalPeriod": 365.25,
-      "moons": [
-        {
-          "name": "Moon",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.1,
-          "semiMajorAxis": 3,
-          "orbitalPeriod": 27.3
-        }
-      ]
-    },
-    {
-      "name": "Mars",
-      "textureUrl": "/textures/2k_mars.jpg",
-      "radius": 0.4,
-      "semiMajorAxis": 8,
-      "eccentricity": 0.0934,
-      "orbitalPeriod": 687,
-      "moons": [
-        {
-          "name": "Phobos",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.05,
-          "semiMajorAxis": 1.5,
-          "orbitalPeriod": 10
-        },
-        {
-          "name": "Deimos",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.03,
-          "semiMajorAxis": 3.2,
-          "orbitalPeriod": 12
-        }
-      ]
-    },
-    {
-      "name": "Jupiter",
-      "textureUrl": "/textures/2k_jupiter.jpg",
-      "radius": 0.9,
-      "semiMajorAxis": 15,
-      "eccentricity": 0.0489,
-      "orbitalPeriod": 4331,
-      "moons": [
-        {
-          "name": "Io",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.1,
-          "semiMajorAxis": 6,
-          "orbitalPeriod": 1.77
-        },
-        {
-          "name": "Europa",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.09,
-          "semiMajorAxis": 9.7,
-          "orbitalPeriod": 3.55
-        },
-        {
-          "name": "Ganymede",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.13,
-          "semiMajorAxis": 15,
-          "orbitalPeriod": 7.15
-        },
-        {
-          "name": "Callisto",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.12,
-          "semiMajorAxis": 26,
-          "orbitalPeriod": 16.69
-        }
-      ]
-    },
-    {
-      "name": "Saturn",
-      "textureUrl": "/textures/2k_saturn.jpg",
-      "radius": 0.8,
-      "semiMajorAxis": 20,
-      "eccentricity": 0.0565,
-      "orbitalPeriod": 10747,
-      "moons": [
-        {
-          "name": "Titan",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.2,
-          "semiMajorAxis": 20,
-          "orbitalPeriod": 15.95
-        },
-        {
-          "name": "Rhea",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.1,
-          "semiMajorAxis": 8,
-          "orbitalPeriod": 4.52
-        }
-      ]
-    },
-    {
-      "name": "Uranus",
-      "textureUrl": "/textures/2k_uranus.jpg",
-      "radius": 0.7,
-      "semiMajorAxis": 25,
-      "eccentricity": 0.0457,
-      "orbitalPeriod": 30589,
-      "moons": [
-        {
-          "name": "Miranda",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.05,
-          "semiMajorAxis": 3.4,
-          "orbitalPeriod": 1.41
-        },
-        {
-          "name": "Ariel",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.07,
-          "semiMajorAxis": 5.8,
-          "orbitalPeriod": 2.52
-        },
-        {
-          "name": "Umbriel",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.06,
-          "semiMajorAxis": 8.4,
-          "orbitalPeriod": 4.14
-        },
-        {
-          "name": "Titania",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.08,
-          "semiMajorAxis": 13.5,
-          "orbitalPeriod": 8.71
-        },
-        {
-          "name": "Oberon",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.08,
-          "semiMajorAxis": 15,
-          "orbitalPeriod": 13.46
-        }
-      ]
-    },
-    {
-      "name": "Neptune",
-      "textureUrl": "/textures/2k_neptune.jpg",
-      "radius": 0.7,
-      "semiMajorAxis": 30,
-      "eccentricity": 0.0086,
-      "orbitalPeriod": 59800,
-      "moons": [
-        {
-          "name": "Triton",
-          "textureUrl": "/textures/2k_moon.jpg",
-          "radius": 0.12,
-          "semiMajorAxis": 7.5,
-          "orbitalPeriod": 5.88
-        }
-      ]
-    }
-  ];
-  export default planets;
+const TIME_SCALE = 1; // 1 day per second
+const ORBIT_SCALE = 0.5; // 1 unit per AU
+
+const planets = [
+  {
+    name: "Mercury",
+    textureUrl: "/textures/2k_mercury.jpg",
+    radius: 0.383,
+    semiMajorAxis: 3.9 * ORBIT_SCALE,
+    eccentricity: 0.2056,
+    inclination: (Math.PI * 7.0) / 180,
+    longitudeOfAscendingNode: (Math.PI * 48.331) / 180,
+    argumentOfPeriapsis: (Math.PI * 29.124) / 180,
+    orbitalPeriod: 88 * TIME_SCALE,
+    moons: [],
+  },
+  {
+    name: "Venus",
+    textureUrl: "/textures/2k_venus_surface.jpg",
+    radius: 0.949,
+    semiMajorAxis: 7.2 * ORBIT_SCALE,
+    eccentricity: 0.0067,
+    inclination: (Math.PI * 3.39) / 180,
+    longitudeOfAscendingNode: (Math.PI * 76.68) / 180,
+    argumentOfPeriapsis: (Math.PI * 54.884) / 180,
+    orbitalPeriod: 224.7 * TIME_SCALE,
+    moons: [],
+  },
+  {
+    name: "Earth",
+    textureUrl: "/textures/2k_earth_daymap.jpg",
+    radius: 1,
+    semiMajorAxis: 10 * ORBIT_SCALE,
+    eccentricity: 0.0167,
+    inclination: (Math.PI * 0.00005) / 180, // relative to ecliptic
+    longitudeOfAscendingNode: (Math.PI * -11.26064) / 180,
+    argumentOfPeriapsis: (Math.PI * 114.20783) / 180,
+    orbitalPeriod: 365.2 * TIME_SCALE,
+    moons: [
+      {
+        name: "Moon",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.1,
+        semiMajorAxis: 3,
+        orbitalPeriod: 27.3,
+      },
+    ],
+  },
+  {
+    name: "Mars",
+    textureUrl: "/textures/2k_mars.jpg",
+    radius: 0.532,
+    semiMajorAxis: 15.2 * ORBIT_SCALE,
+    eccentricity: 0.0934,
+    inclination: (Math.PI * 1.85) / 180,
+    longitudeOfAscendingNode: (Math.PI * 49.558) / 180,
+    argumentOfPeriapsis: (Math.PI * 286.502) / 180,
+    orbitalPeriod: 687 * TIME_SCALE,
+    moons: [
+      {
+        name: "Phobos",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.05,
+        semiMajorAxis: 1.5,
+        orbitalPeriod: 10,
+      },
+      {
+        name: "Deimos",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.03,
+        semiMajorAxis: 3.2,
+        orbitalPeriod: 12,
+      },
+    ],
+  },
+  {
+    name: "Jupiter",
+    textureUrl: "/textures/2k_jupiter.jpg",
+    radius: 11.21,
+    semiMajorAxis: 52.0 * ORBIT_SCALE,
+    eccentricity: 0.0489,
+    inclination: (Math.PI * 1.303) / 180,
+    longitudeOfAscendingNode: (Math.PI * 100.464) / 180,
+    argumentOfPeriapsis: (Math.PI * 273.867) / 180,
+    orbitalPeriod: 4331 * TIME_SCALE,
+    moons: [
+      {
+        name: "Io",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.1,
+        semiMajorAxis: 6,
+        orbitalPeriod: 1.77,
+      },
+      {
+        name: "Europa",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.09,
+        semiMajorAxis: 9.7,
+        orbitalPeriod: 3.55,
+      },
+      {
+        name: "Ganymede",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.13,
+        semiMajorAxis: 15,
+        orbitalPeriod: 7.15,
+      },
+      {
+        name: "Callisto",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.12,
+        semiMajorAxis: 26,
+        orbitalPeriod: 16.69,
+      },
+    ],
+  },
+  {
+    name: "Saturn",
+    textureUrl: "/textures/2k_saturn.jpg",
+    radius: 9.45,
+    semiMajorAxis: 95.4 * ORBIT_SCALE,
+    eccentricity: 0.0565,
+    inclination: (Math.PI * 2.485) / 180,
+    longitudeOfAscendingNode: (Math.PI * 113.665) / 180,
+    argumentOfPeriapsis: (Math.PI * 339.392) / 180,
+    orbitalPeriod: 10747 * TIME_SCALE,
+    moons: [
+      {
+        name: "Titan",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.2,
+        semiMajorAxis: 20,
+        orbitalPeriod: 15.95,
+      },
+      {
+        name: "Rhea",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.1,
+        semiMajorAxis: 8,
+        orbitalPeriod: 4.52,
+      },
+    ],
+  },
+  {
+    name: "Uranus",
+    textureUrl: "/textures/2k_uranus.jpg",
+    radius: 4.01,
+    semiMajorAxis: 191.9 * ORBIT_SCALE,
+    eccentricity: 0.0457,
+    inclination: (Math.PI * 0.772) / 180,
+    longitudeOfAscendingNode: (Math.PI * 74.006) / 180,
+    argumentOfPeriapsis: (Math.PI * 96.998857) / 180,
+    orbitalPeriod: 30589 * TIME_SCALE,
+    moons: [
+      {
+        name: "Miranda",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.05,
+        semiMajorAxis: 3.4,
+        orbitalPeriod: 1.41,
+      },
+      {
+        name: "Ariel",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.07,
+        semiMajorAxis: 5.8,
+        orbitalPeriod: 2.52,
+      },
+      {
+        name: "Umbriel",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.06,
+        semiMajorAxis: 8.4,
+        orbitalPeriod: 4.14,
+      },
+      {
+        name: "Titania",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.08,
+        semiMajorAxis: 13.5,
+        orbitalPeriod: 8.71,
+      },
+      {
+        name: "Oberon",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.08,
+        semiMajorAxis: 15,
+        orbitalPeriod: 13.46,
+      },
+    ],
+  },
+  {
+    name: "Neptune",
+    textureUrl: "/textures/2k_neptune.jpg",
+    radius: 3.88,
+    semiMajorAxis: 300.6 * ORBIT_SCALE,
+    eccentricity: 0.0086,
+    inclination: (Math.PI * 1.769) / 180,
+    longitudeOfAscendingNode: (Math.PI * 131.784) / 180,
+    argumentOfPeriapsis: (Math.PI * 273.187) / 180,
+    orbitalPeriod: 59800 * TIME_SCALE,
+    moons: [
+      {
+        name: "Triton",
+        textureUrl: "/textures/2k_moon.jpg",
+        radius: 0.12,
+        semiMajorAxis: 7.5,
+        orbitalPeriod: 5.88,
+      },
+    ],
+  },
+];
+
+export default planets;
