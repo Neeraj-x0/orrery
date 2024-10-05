@@ -40,7 +40,7 @@ function Moon({
       <Line
         points={orbitPoints} // The calculated points forming the orbit
         color="white" // Orbit color
-        lineWidth={2} // Line thickness
+        lineWidth={0.5} // Line thickness
         dashed={true} // Make the orbit dashed
         dashSize={1} // Size of the dashes
         gapSize={0.5} // Gap between dashes

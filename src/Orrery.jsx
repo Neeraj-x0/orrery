@@ -20,6 +20,7 @@ const Orrery = () => {
           {/* Sun */}
           <Sun textureUrl="/textures/2k_sun.jpg" radius={1} />
 
+          {/* Mercury */}
           <Planets
             textureUrl="/textures/2k_mercury.jpg"
             radius={0.3}
@@ -29,6 +30,7 @@ const Orrery = () => {
             name={"Mercury"}
           />
 
+          {/* Venus */}
           <Planets
             textureUrl="/textures/2k_venus_surface.jpg"
             radius={0.6}
@@ -56,6 +58,7 @@ const Orrery = () => {
               },
             ]}
           />
+
           {/* Mars */}
           <Planets
             textureUrl="/textures/2k_mars.jpg"
@@ -64,7 +67,24 @@ const Orrery = () => {
             eccentricity={0.0934}
             orbitalPeriod={687}
             name={"Mars"}
+            moons={[
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.05,
+                semiMajorAxis: 1.5,
+                orbitalPeriod: 10,
+                name: "Phobos",
+              },
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.03,
+                semiMajorAxis: 3.2,
+                orbitalPeriod: 12,
+                name: "Deimos",
+              },
+            ]}
           />
+
           {/* Jupiter */}
           <Planets
             textureUrl="/textures/2k_jupiter.jpg"
@@ -73,7 +93,38 @@ const Orrery = () => {
             eccentricity={0.0489}
             orbitalPeriod={4331}
             name={"Jupiter"}
+            moons={[
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.1,
+                semiMajorAxis: 6,
+                orbitalPeriod: 1.77,
+                name: "Io",
+              },
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.09,
+                semiMajorAxis: 9.7,
+                orbitalPeriod: 3.55,
+                name: "Europa",
+              },
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.13,
+                semiMajorAxis: 15,
+                orbitalPeriod: 7.15,
+                name: "Ganymede",
+              },
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.12,
+                semiMajorAxis: 26,
+                orbitalPeriod: 16.69,
+                name: "Callisto",
+              },
+            ]}
           />
+
           {/* Saturn */}
           <Planets
             textureUrl="/textures/2k_saturn.jpg"
@@ -82,7 +133,24 @@ const Orrery = () => {
             eccentricity={0.0565}
             orbitalPeriod={10747}
             name={"Saturn"}
+            moons={[
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.2,
+                semiMajorAxis: 20,
+                orbitalPeriod: 15.95,
+                name: "Titan",
+              },
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.1,
+                semiMajorAxis: 8,
+                orbitalPeriod: 4.52,
+                name: "Rhea",
+              },
+            ]}
           />
+
           {/* Uranus */}
           <Planets
             textureUrl="/textures/2k_uranus.jpg"
@@ -91,7 +159,45 @@ const Orrery = () => {
             eccentricity={0.0457}
             orbitalPeriod={30589}
             name={"Uranus"}
+            moons={[
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.05,
+                semiMajorAxis: 3.4,
+                orbitalPeriod: 1.41,
+                name: "Miranda",
+              },
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.07,
+                semiMajorAxis: 5.8,
+                orbitalPeriod: 2.52,
+                name: "Ariel",
+              },
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.06,
+                semiMajorAxis: 8.4,
+                orbitalPeriod: 4.14,
+                name: "Umbriel",
+              },
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.08,
+                semiMajorAxis: 13.5,
+                orbitalPeriod: 8.71,
+                name: "Titania",
+              },
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.08,
+                semiMajorAxis: 15,
+                orbitalPeriod: 13.46,
+                name: "Oberon",
+              },
+            ]}
           />
+
           {/* Neptune */}
           <Planets
             textureUrl="/textures/2k_neptune.jpg"
@@ -100,6 +206,15 @@ const Orrery = () => {
             eccentricity={0.0086}
             orbitalPeriod={59800}
             name={"Neptune"}
+            moons={[
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.12,
+                semiMajorAxis: 7.5,
+                orbitalPeriod: 5.88,
+                name: "Triton",
+              },
+            ]}
           />
         </Suspense>
       </Canvas>
