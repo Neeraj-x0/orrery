@@ -1,11 +1,12 @@
 const TIME_SCALE = 1; // 1 day per second
-const ORBIT_SCALE = 0.5; // 1 unit per AU
+const ORBIT_SCALE = 1.5; // 1 unit per AU
+const PLANET_SIZE_SCALE = 1; // Adjust this value to control planet size
 
 const planets = [
   {
     name: "Mercury",
     textureUrl: "/textures/2k_mercury.jpg",
-    radius: 0.383,
+    radius: 0.383 * PLANET_SIZE_SCALE,
     semiMajorAxis: 3.9 * ORBIT_SCALE,
     eccentricity: 0.2056,
     inclination: (Math.PI * 7.0) / 180,
@@ -17,7 +18,7 @@ const planets = [
   {
     name: "Venus",
     textureUrl: "/textures/2k_venus_surface.jpg",
-    radius: 0.949,
+    radius: 0.949 * PLANET_SIZE_SCALE,
     semiMajorAxis: 7.2 * ORBIT_SCALE,
     eccentricity: 0.0067,
     inclination: (Math.PI * 3.39) / 180,
@@ -29,7 +30,7 @@ const planets = [
   {
     name: "Earth",
     textureUrl: "/textures/2k_earth_daymap.jpg",
-    radius: 1,
+    radius: 1 * PLANET_SIZE_SCALE,
     semiMajorAxis: 10 * ORBIT_SCALE,
     eccentricity: 0.0167,
     inclination: (Math.PI * 0.00005) / 180, // relative to ecliptic
@@ -49,7 +50,7 @@ const planets = [
   {
     name: "Mars",
     textureUrl: "/textures/2k_mars.jpg",
-    radius: 0.532,
+    radius: 0.532 * PLANET_SIZE_SCALE,
     semiMajorAxis: 15.2 * ORBIT_SCALE,
     eccentricity: 0.0934,
     inclination: (Math.PI * 1.85) / 180,
@@ -76,7 +77,7 @@ const planets = [
   {
     name: "Jupiter",
     textureUrl: "/textures/2k_jupiter.jpg",
-    radius: 11.21,
+    radius: 11.21 * PLANET_SIZE_SCALE,
     semiMajorAxis: 52.0 * ORBIT_SCALE,
     eccentricity: 0.0489,
     inclination: (Math.PI * 1.303) / 180,
@@ -117,7 +118,7 @@ const planets = [
   {
     name: "Saturn",
     textureUrl: "/textures/2k_saturn.jpg",
-    radius: 9.45,
+    radius: 9.45 * PLANET_SIZE_SCALE,
     semiMajorAxis: 95.4 * ORBIT_SCALE,
     eccentricity: 0.0565,
     inclination: (Math.PI * 2.485) / 180,
@@ -144,8 +145,8 @@ const planets = [
   {
     name: "Uranus",
     textureUrl: "/textures/2k_uranus.jpg",
-    radius: 4.01,
-    semiMajorAxis: 191.9 * ORBIT_SCALE,
+    radius: 4.01 * PLANET_SIZE_SCALE,
+    semiMajorAxis: 161.9 * ORBIT_SCALE,
     eccentricity: 0.0457,
     inclination: (Math.PI * 0.772) / 180,
     longitudeOfAscendingNode: (Math.PI * 74.006) / 180,
@@ -192,8 +193,8 @@ const planets = [
   {
     name: "Neptune",
     textureUrl: "/textures/2k_neptune.jpg",
-    radius: 3.88,
-    semiMajorAxis: 300.6 * ORBIT_SCALE,
+    radius: 3.88 * PLANET_SIZE_SCALE,
+    semiMajorAxis: 200.6 * ORBIT_SCALE,
     eccentricity: 0.0086,
     inclination: (Math.PI * 1.769) / 180,
     longitudeOfAscendingNode: (Math.PI * 131.784) / 180,

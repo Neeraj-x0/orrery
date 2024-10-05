@@ -89,7 +89,7 @@ function Planets({
 
   const zoomToPlanet = () => {
     const planetPos = planetRef.current.position;
-    const offset = new THREE.Vector3(0, 1, 2); // Adjusted for a closer view
+    const offset = new THREE.Vector3(0, 1, 4); // Adjusted for a closer view
     const targetPos = planetPos.clone().add(offset);
     gsap.to(camera.position, {
       x: targetPos.x,
@@ -114,7 +114,7 @@ function Planets({
       const x = distance * Math.cos(angle);
       const z = distance * Math.sin(angle);
       const planetPos = new THREE.Vector3(x, 0, z);
-      const offset = new THREE.Vector3(0, 1, 2); // Adjusted for a closer view
+      const offset = new THREE.Vector3(0, 1, 4); // Adjusted for a closer view
       const targetPos = planetPos.clone().add(offset);
       camera.position.lerp(targetPos, 0.1); // Smoothly interpolate the camera position
       camera.lookAt(planetPos); // Keep the camera looking at the planet
