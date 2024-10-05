@@ -1,5 +1,6 @@
 import "./App.css";
 import Orrery from "./Orrery";
+import ControlPanel from "./ControlPanel";
 import { useState } from "react";
 
 function App() {
@@ -19,26 +20,14 @@ function App() {
   };
 
   return (
-    <div style={{ display: "flex" }}>
-      <div style={sidebarStyle}>
-        <h2 style={headerStyle}>Controls</h2>
-        <div style={controlContainer}>
-          <label style={labelStyle}>Speed: {speed.toFixed(1)}</label>
-          <input
-            type="range"
-            min="0.1"
-            max="10"
-            step="0.01"
-            value={speed}
-            onChange={handleSpeedChange}
-            style={sliderStyle}
-          />
-          <button onClick={toggleBorders} style={buttonStyle}>
-            {showBorders ? "Hide Borders" : "Show Borders"}
-          </button>
-        </div>
-      </div> 
-      <Orrery speed={speed} showBorders={showBorders} />
+    <div className="h-screen w-screen flex overflow-hidden">
+      <div className="w-[20%]">
+        <ControlPanel />
+      </div>
+
+      <div className="w-[80%]">
+        <Orrery speed={speed} showBorders={showBorders} />
+      </div>
     </div>
   );
 }
