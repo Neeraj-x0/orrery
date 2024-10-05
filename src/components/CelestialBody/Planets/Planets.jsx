@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Line, Html } from "@react-three/drei";
 import * as THREE from "three";
@@ -49,10 +49,12 @@ function Planets({
   // Function to zoom in and focus on a planet
   const zoomToPlanet = () => {
     const planetPos = planetRef.current.position;
+    const offset = new THREE.Vector3(0, 1, 2); // Adjusted for a closer view
+    const targetPos = planetPos.clone().add(offset);
     gsap.to(camera.position, {
-      x: planetPos.x + 2, // Adjust this value based on how close you want the camera
-      y: planetPos.y + 1, // Adjust for a good view angle
-      z: planetPos.z + 2, // Adjust based on distance
+      x: targetPos.x,
+      y: targetPos.y,
+      z: targetPos.z,
       duration: 1, // Smooth transition duration
       onUpdate: () => {
         camera.lookAt(planetPos); // Keep the camera looking at the planet
@@ -60,6 +62,38 @@ function Planets({
       },
     });
   };
+  // Function to make the camera follow the planet
+  const followPlanet = useRef(false);
+  useFrame(({ clock }) => {
+    if (followPlanet.current) {
+      const elapsedTime = clock.getElapsedTime();
+      const angle = (elapsedTime / orbitalPeriod) * 2 * Math.PI;
+      const distance =
+        (semiMajorAxis * (1 - eccentricity ** 2)) /
+        (1 + eccentricity * Math.cos(angle));
+      const x = distance * Math.cos(angle);
+      const z = distance * Math.sin(angle);
+      const planetPos = new THREE.Vector3(x, 0, z);
+      const offset = new THREE.Vector3(0, 1, 2); // Adjusted for a closer view
+      const targetPos = planetPos.clone().add(offset);
+      camera.position.lerp(targetPos, 0.1); // Smoothly interpolate the camera position
+      camera.lookAt(planetPos); // Keep the camera looking at the planet
+    }
+  });
+  const handlePlanetClick = () => {
+    followPlanet.current = true;
+    zoomToPlanet();
+  };
+  // Disable followPlanet when the mouse is moved
+  const handleMouseMove = () => {
+    followPlanet.current = false;
+  };
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
 
   return (
     <>
@@ -73,9 +107,7 @@ function Planets({
       {/* Planet with Moons */}
       <group ref={planetRef}>
         <mesh
-          onPointerOver={() => setHovered(true)}
-          onPointerOut={() => setHovered(false)}
-          onClick={zoomToPlanet} // Zoom in on click
+          onClick={handlePlanetClick} // Zoom in on click
         >
           <sphereGeometry args={[radius, 32, 32]} />
           <meshStandardMaterial
