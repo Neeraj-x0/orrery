@@ -111,8 +111,8 @@ function Planets({
 
       <group ref={planetRef}>
         <mesh
-          onPointerOver={() => setHovered(true)}
-          onPointerOut={() => setHovered(false)}
+          // onPointerOver={() => setHovered(true)}
+          // onPointerOut={() => setHovered(false)}
           onClick={zoomToPlanet}
         >
           <sphereGeometry args={[radius, 32, 32]} />
