@@ -112,7 +112,7 @@ function SpeechtoText() {
   const scaleFactor = 1 + audioLevel * 0.5;
 
   return (
-    <div className="relative inline-block">
+    <div className="relative text-center items-center inline-block">
       <button
         onClick={toggleListening}
         style={{
@@ -126,7 +126,7 @@ function SpeechtoText() {
       {isListening ? (
         <>
           <div
-            className="absolute inset-0 rounded-full animate-ping pointer-events-none"
+            className="absolute  inset-0 rounded-full animate-ping pointer-events-none"
             style={{
               backgroundColor: `rgba(59, 130, 246, ${audioLevel * 0.7})`,
               transform: `scale(${1 + audioLevel * 0.5})`,
