@@ -1,11 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Line, Html, Text } from "@react-three/drei"; // Import Text
 import * as THREE from "three";
 import gsap from "gsap";
 import "./Planets.css";
 import Moon from "../Moons/Moon";
-import Neos from "../NEOS/NEOS";
+import Neos from "../Neos/Neos";
+import { setPosition } from "../../../redux/astro";
+import { useDispatch } from "react-redux";
 
 function Planets({
   textureUrl,
@@ -23,6 +25,7 @@ function Planets({
   const planetRef = useRef();
   const [hovered, setHovered] = useState(false);
   const { camera, gl } = useThree();
+  const dispatch = useDispatch();
 
   // Function to apply orbital rotations
   const applyOrbitalRotations = (x, y, z) => {
@@ -46,19 +49,53 @@ function Planets({
     return new THREE.Vector3(xFinal, zFinal, yFinal);
   };
 
-  const orbitPoints = [];
-  for (let i = 0; i <= 100; i++) {
-    const trueAnomaly = (i / 100) * 2 * Math.PI;
-    const r =
-      (semiMajorAxis * (1 - eccentricity ** 2)) /
-      (1 + eccentricity * Math.cos(trueAnomaly));
+  // Calculate the points for the orbit using Keplerian parameters
+  const orbitPoints = useMemo(() => {
+    const points = [];
+    for (let i = 0; i <= 100; i++) {
+      const trueAnomaly = (i / 100) * 2 * Math.PI;
+      const r =
+        (semiMajorAxis * (1 - eccentricity ** 2)) /
+        (1 + eccentricity * Math.cos(trueAnomaly));
 
-    let x = r * Math.cos(trueAnomaly);
-    let y = r * Math.sin(trueAnomaly);
+      let x = r * Math.cos(trueAnomaly);
+      let y = r * Math.sin(trueAnomaly);
 
-    const rotatedPoint = applyOrbitalRotations(x, y, 0);
-    orbitPoints.push(rotatedPoint);
-  }
+      const rotatedPoint = applyOrbitalRotations(x, y, 0);
+      points.push(rotatedPoint);
+    }
+    return points;
+  }, [semiMajorAxis, eccentricity, applyOrbitalRotations]);
+
+  // Only dispatch the position if it changes and the planet is clicked
+  const handleClick = () => {
+    if (planetRef.current) {
+      const planetPos = planetRef.current.position.toArray();
+      dispatch(setPosition(planetPos)); // Dispatch the clicked planet's position
+      console.log(planetPos); // For debugging
+      zoomToPlanet(planetPos); // Zoom to the clicked planet
+    }
+  };
+
+  const zoomToPlanet = (planetPos) => {
+    gsap.to(camera.position, {
+      x: planetPos[0] + 2,
+      y: planetPos[1] + 1,
+      z: planetPos[2] + 2,
+      duration: 1,
+      onUpdate: () => {
+        camera.lookAt(planetPos);
+        gl.render();
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (planetRef.current) {
+      const planetPos = planetRef.current.position.toArray();
+      dispatch(setPosition(planetPos)); // Initially dispatch the planet position
+    }
+  }, [dispatch]);
 
   useFrame(({ clock }) => {
     const elapsedTime = clock.getElapsedTime();
@@ -66,6 +103,8 @@ function Planets({
 
     let eccentricAnomaly = meanAnomaly;
     for (let i = 0; i < 10; i++) {
+      eccentricAnomaly =
+        meanAnomaly + eccentricity * Math.sin(eccentricAnomaly);
       eccentricAnomaly =
         meanAnomaly + eccentricity * Math.sin(eccentricAnomaly);
     }
@@ -77,6 +116,8 @@ function Planets({
           Math.tan(eccentricAnomaly / 2)
       );
 
+    // Calculate radius vector magnitude
+
     const r =
       (semiMajorAxis * (1 - eccentricity ** 2)) /
       (1 + eccentricity * Math.cos(trueAnomaly));
@@ -85,7 +126,6 @@ function Planets({
     let y = r * Math.sin(trueAnomaly);
 
     const position = applyOrbitalRotations(x, y, 0);
-
     if (planetRef.current) {
       planetRef.current.position.set(position.x, position.y, position.z);
       planetRef.current.rotation.y += 0.004;
@@ -145,8 +185,10 @@ function Planets({
   return (
     <>
       <Line points={orbitPoints} color="white" lineWidth={1} />
+      <Line points={orbitPoints} color="white" lineWidth={1} />
 
       <group ref={planetRef}>
+        {/*  */}
         <mesh
           onClick={handlePlanetClick}
         >
@@ -162,6 +204,8 @@ function Planets({
                 Semi-major axis: {semiMajorAxis.toFixed(2)} <br />
                 Eccentricity: {eccentricity.toFixed(4)} <br />
                 Inclination: {((inclination * 180) / Math.PI).toFixed(2)}°{" "}
+                <br />
+
                 <br />
                 Orbital Period: {orbitalPeriod.toFixed(1)}
               </div>
