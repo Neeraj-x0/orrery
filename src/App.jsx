@@ -37,7 +37,7 @@ function App() {
             {showBorders ? "Hide Borders" : "Show Borders"}
           </button>
         </div>
-      </div>
+      </div> 
       <Orrery speed={speed} showBorders={showBorders} />
     </div>
   );
