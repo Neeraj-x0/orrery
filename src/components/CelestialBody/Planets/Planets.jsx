@@ -123,7 +123,7 @@ function Planets({
       duration: 1,
       onUpdate: () => {
         camera.lookAt(planetPos);
-        gl.render();
+        gl.render(scene, camera); // Ensure scene is passed to render
       },
     });
   };
@@ -131,7 +131,7 @@ function Planets({
   const followPlanet = useRef(false);
   useFrame(({ clock }) => {
     if (followPlanet.current) {
-      const elapsedTime = clock.getElapsedTime();
+      const elapsedTime = clock.getElapsedTime();  
       const angle = (elapsedTime / orbitalPeriod) * 2 * Math.PI;
       const distance =
         (semiMajorAxis * (1 - eccentricity ** 2)) /
