@@ -21,7 +21,9 @@ function Planets({
   moons,
   name,
   speed,
-  neos,
+  nearEarthAsteroids,
+  nearEarthComets,
+  potentiallyHazardousAsteroids,
 }) {
   const planetRef = useRef();
   const [hovered, setHovered] = useState(false);
@@ -217,7 +219,7 @@ function Planets({
           />
         ))}
 
-        {neos?.map((neo, index) => (
+        {nearEarthAsteroids?.map((neo, index) => (
           <Neos
             key={index}
             textureUrl={neo.textureUrl}
@@ -230,8 +232,42 @@ function Planets({
             orbitalPeriod={neo.orbitalPeriod}
             parentRef={planetRef}
             name={neo.name}
+            color="yellow"
           />
         ))}
+        {nearEarthComets?.map((neo, index) => (
+          <Neos
+            key={index}
+            textureUrl={neo.textureUrl}
+            radius={neo.radius}
+            semiMajorAxis={neo.semiMajorAxis}
+            eccentricity={neo.eccentricity}
+            inclination={neo.inclination}
+            longitudeOfAscendingNode={neo.longitudeOfAscendingNode}
+            argumentOfPeriapsis={neo.argumentOfPeriapsis}
+            orbitalPeriod={neo.orbitalPeriod}
+            parentRef={planetRef}
+            name={neo.name}
+            color="green"
+          />
+        ))}
+        {potentiallyHazardousAsteroids?.map((neo, index) => (
+          <Neos
+            key={index}
+            textureUrl={neo.textureUrl}
+            radius={neo.radius}
+            semiMajorAxis={neo.semiMajorAxis}
+            eccentricity={neo.eccentricity}
+            inclination={neo.inclination}
+            longitudeOfAscendingNode={neo.longitudeOfAscendingNode}
+            argumentOfPeriapsis={neo.argumentOfPeriapsis}
+            orbitalPeriod={neo.orbitalPeriod}
+            parentRef={planetRef}
+            name={neo.name}
+            color="red"
+          />
+        ))}
+        
       </group>
     </>
   );

@@ -8,19 +8,19 @@ import planets from "./assets/planets";
 import { TextureLoader } from "three";
 import { useSelector } from "react-redux";
 
-
-const Orrery = ({speed}) => {
+const Orrery = ({ speed }) => {
   const texture = useLoader(TextureLoader, "/astro.png");
   const astroPosition = useSelector((state) => state.astro.position);
-  
-  return (
-    <Canvas style={{width:"90vw",height:"100vh"}} camera={{ fov: 50, position: [0, 0, 30] }}>
 
+  return (
+    <Canvas
+      style={{ width: "90vw", height: "100vh" }}
+      camera={{ fov: 50, position: [0, 0, 30] }}
+    >
       <OrbitControls />
       <mesh position={astroPosition}>
         <sphereGeometry args={[0.3, 32, 32]} />
         <meshStandardMaterial map={texture} />
-              
       </mesh>
       {/* Starry background */}
       <Stars
@@ -44,15 +44,14 @@ const Orrery = ({speed}) => {
             semiMajorAxis={planet.semiMajorAxis}
             inclination={planet.inclination}
             eccentricity={planet.eccentricity}
-            orbitalPeriod={planet.orbitalPeriod*speed}
+            orbitalPeriod={planet.orbitalPeriod * speed}
             name={planet.name}
             moons={planet.moons}
-            
-            neos={planet.neos}
+            nearEarthAsteroids={planet.nearEarthAsteroids}
+            nearEarthComets={planet.nearEarthComets}
+            potentiallyHazardousAsteroids={planet.potentiallyHazardousAsteroids}
           />
         ))}
-
-        {/* Load the OBJ model and position it on the Sun */}
       </Suspense>
     </Canvas>
   );
