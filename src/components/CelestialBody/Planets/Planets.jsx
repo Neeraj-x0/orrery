@@ -3,7 +3,9 @@ import { useFrame } from "@react-three/fiber";
 import { Line, Html } from "@react-three/drei";
 import * as THREE from "three";
 import "./Planets.css";
-function Planets({ textureUrl, radius, semiMajorAxis, eccentricity, orbitalPeriod, name }) {
+import Moon from "../Moons/Moon";
+
+function Planets({ textureUrl, radius, semiMajorAxis, eccentricity, orbitalPeriod, moons, name }) {
   const planetRef = useRef();
   const [hovered, setHovered] = useState(false);
 
@@ -38,25 +40,39 @@ function Planets({ textureUrl, radius, semiMajorAxis, eccentricity, orbitalPerio
         lineWidth={1}         // Line thickness
       />
       
-      {/* Planet */}
-      <mesh
-        ref={planetRef}
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => setHovered(false)}
-      >
-        <sphereGeometry args={[radius, 32, 32]} />
-        <meshStandardMaterial map={new THREE.TextureLoader().load(textureUrl)} />
-        {hovered && (
-          <Html position={[0, radius + 0.5, 0]} center>
-            <div className="popup" >
-              {name} <br />
-              Radius: {radius} <br />
-              Distance from Sun: {semiMajorAxis} <br />
-              Orbital Period: {orbitalPeriod}
-            </div>
-          </Html>
-        )}
-      </mesh>
+      {/* Planet with Moons */}
+      <group ref={planetRef}>
+        <mesh
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
+        >
+          <sphereGeometry args={[radius, 32, 32]} />
+          <meshStandardMaterial map={new THREE.TextureLoader().load(textureUrl)} />
+          {hovered && (
+            <Html position={[0, radius + 0.5, 0]} center>
+              <div className="popup" >
+                {name} <br />
+                Radius: {radius} <br />
+                Distance from Sun: {semiMajorAxis} <br />
+                Orbital Period: {orbitalPeriod}
+              </div>
+            </Html>
+          )}
+        </mesh>
+
+        {/* Moons */}
+        {moons?.map((moon, index) => (
+          <Moon
+            key={index}
+            textureUrl={moon.textureUrl}
+            radius={moon.radius}
+            semiMajorAxis={moon.semiMajorAxis}
+            orbitalPeriod={moon.orbitalPeriod}
+            parentRef={planetRef}  // Pass planet reference to the moon
+            name={moon.name}
+          />
+        ))}
+      </group>
     </>
   );
 }

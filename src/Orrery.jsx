@@ -1,10 +1,10 @@
-import React from 'react';
-import { Canvas } from '@react-three/fiber';
+import React from "react";
+import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { OrbitControls, Stars } from "@react-three/drei";
 import Sun from "./components/CelestialBody/Planets/Sun/Sun";
 import Planets from "./components/CelestialBody/Planets/Planets";
-import GalaxyBackground from './components/GalaxyBackground/GalaxyBackground';
+import GalaxyBackground from "./components/GalaxyBackground/GalaxyBackground";
 
 const Orrery = () => {
   return (
@@ -13,11 +13,13 @@ const Orrery = () => {
         <OrbitControls />
         <Suspense fallback={null}>
           {/* <ambientLight intensity={0.3} /> */}
-          <GalaxyBackground textureUrl="/textures/8k_stars_milky_way.jpg" radius={200} />
+          <GalaxyBackground
+            textureUrl="/textures/8k_stars_milky_way.jpg"
+            radius={200}
+          />
           {/* Sun */}
           <Sun textureUrl="/textures/2k_sun.jpg" radius={1} />
 
-          {/* Mercury */}
           <Planets
             textureUrl="/textures/2k_mercury.jpg"
             radius={0.3}
@@ -27,7 +29,6 @@ const Orrery = () => {
             name={"Mercury"}
           />
 
-          {/* Venus */}
           <Planets
             textureUrl="/textures/2k_venus_surface.jpg"
             radius={0.6}
@@ -45,6 +46,15 @@ const Orrery = () => {
             eccentricity={0.0167}
             orbitalPeriod={365.25}
             name={"Earth"}
+            moons={[
+              {
+                textureUrl: "/textures/2k_moon.jpg",
+                radius: 0.1,
+                semiMajorAxis: 3,
+                orbitalPeriod: 27.3,
+                name: "Moon",
+              },
+            ]}
           />
 
           {/* Mars */}
