@@ -20,6 +20,7 @@ function Planets({
   orbitalPeriod,
   moons,
   name,
+  speed,
   neos,
 }) {
   const planetRef = useRef();
@@ -67,28 +68,6 @@ function Planets({
     return points;
   }, [semiMajorAxis, eccentricity, applyOrbitalRotations]);
 
-  // Only dispatch the position if it changes and the planet is clicked
-  const handleClick = () => {
-    if (planetRef.current) {
-      const planetPos = planetRef.current.position.toArray();
-      dispatch(setPosition(planetPos)); // Dispatch the clicked planet's position
-      console.log(planetPos); // For debugging
-      zoomToPlanet(planetPos); // Zoom to the clicked planet
-    }
-  };
-
-  const zoomToPlanet = (planetPos) => {
-    gsap.to(camera.position, {
-      x: planetPos[0] + 2,
-      y: planetPos[1] + 1,
-      z: planetPos[2] + 2,
-      duration: 1,
-      onUpdate: () => {
-        camera.lookAt(planetPos);
-        gl.render();
-      },
-    });
-  };
 
   useEffect(() => {
     if (planetRef.current) {
@@ -134,6 +113,7 @@ function Planets({
 
   const zoomToPlanet = () => {
     const planetPos = planetRef.current.position;
+    dispatch(setPosition(planetPos.toArray()));
     const offset = new THREE.Vector3(0, 1, 4);
     const targetPos = planetPos.clone().add(offset);
     gsap.to(camera.position, {

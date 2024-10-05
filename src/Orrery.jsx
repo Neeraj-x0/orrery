@@ -9,12 +9,12 @@ import { TextureLoader } from "three";
 import { useSelector } from "react-redux";
 
 
-const Orrery = () => {
+const Orrery = ({speed}) => {
   const texture = useLoader(TextureLoader, "/astro.png");
   const astroPosition = useSelector((state) => state.astro.position);
   
   return (
-    <Canvas camera={{ fov: 50, position: [0, 0, 30] }}>
+    <Canvas style={{width:"90vw",height:"100vh"}} camera={{ fov: 50, position: [0, 0, 30] }}>
 
       <OrbitControls />
       <mesh position={astroPosition}>
@@ -44,7 +44,7 @@ const Orrery = () => {
             semiMajorAxis={planet.semiMajorAxis}
             inclination={planet.inclination}
             eccentricity={planet.eccentricity}
-            orbitalPeriod={planet.orbitalPeriod}
+            orbitalPeriod={planet.orbitalPeriod*speed}
             name={planet.name}
             moons={planet.moons}
             
