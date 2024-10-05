@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import SpeechComponent from "./SpeechComponent";
+import { setOrbitSpeed, setShowOrbit } from "./redux/astro";
 
 function ControlPanel() {
-  const [speed, setSpeed] = useState(1); // Set initial value to 1
-
+const orbitSpeed = useSelector((state)=>state.astro.orbitSpeed);
   const dispatch = useDispatch();
 
   return (
@@ -15,16 +15,16 @@ function ControlPanel() {
         <div className="flex flex-col gap-2 w-full">
           <div className="flex items-center justify-between">
             <label className="text-gray-200">Orbital Speed</label>
-            <p className="text-gray-200 font-semibold">{speed}x</p>
+            <p className="text-gray-200 font-semibold">{orbitSpeed}x</p>
           </div>
           <input
             className="bg-white text-black"
             type="range"
             min="1"
-            max="10"
-            step="0.1"
-            value={speed} // Set the slider's position to the speed state
-            onChange={(e) => setSpeed(Number(e.target.value))} // Ensure value is a number
+            max="30"
+            step="0.5"
+            value={orbitSpeed} // Set the slider's position to the speed state
+            onChange={(e) => dispatch(setOrbitSpeed(Number(e.target.value)))} // Ensure value is a number
           />
         </div>
         {/* Orbital Labels*/}
@@ -39,7 +39,7 @@ function ControlPanel() {
         <div className="w-full flex justify-between">
           <label className="text-gray-200">Orbital Path</label>
           <label className="switch">
-            <input type="checkbox" />
+            <input type="checkbox" defaultChecked onChange={()=>dispatch(setShowOrbit())} />
             <span className="slider round"></span>
           </label>
         </div>

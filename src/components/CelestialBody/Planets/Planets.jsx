@@ -7,7 +7,7 @@ import "./Planets.css";
 import Moon from "../Moons/Moon";
 import Neos from "../Neos/Neos";
 import { setPosition } from "../../../redux/astro";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Planets({
   textureUrl,
@@ -26,6 +26,8 @@ function Planets({
   potentiallyHazardousAsteroids,
 }) {
   const planetRef = useRef();
+  const orbitSpeed = useSelector((state)=>state.astro.orbitSpeed);
+  const showOrbit = useSelector((state)=>state.astro.showOrbit);
   const [hovered, setHovered] = useState(false);
   const { camera, gl } = useThree();
   const dispatch = useDispatch();
@@ -80,7 +82,7 @@ function Planets({
 
   useFrame(({ clock }) => {
     const elapsedTime = clock.getElapsedTime();
-    const meanAnomaly = (elapsedTime / orbitalPeriod) * 2 * Math.PI;
+    const meanAnomaly = (elapsedTime / orbitalPeriod)*orbitSpeed * 2 * Math.PI;
 
     let eccentricAnomaly = meanAnomaly;
     for (let i = 0; i < 10; i++) {
@@ -166,8 +168,7 @@ function Planets({
 
   return (
     <>
-      <Line points={orbitPoints} color="white" lineWidth={1} />
-      <Line points={orbitPoints} color="white" lineWidth={1} />
+      {showOrbit&&<Line points={orbitPoints} color="white" lineWidth={1} />}
 
       <group ref={planetRef}>
         {/*  */}
