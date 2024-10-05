@@ -14,6 +14,7 @@ function Neos({
   orbitalPeriod,
   parentRef,
   name,
+  color,
 }) {
   const NeosRef = useRef();
 
@@ -97,7 +98,7 @@ function Neos({
       {/* Orbit Wireframe */}
       <Line
         points={orbitPoints} // The calculated points forming the orbit
-        color="white" // Orbit color
+        color={color} // Orbit color
         lineWidth={0.3} // Line thickness
         dashed={true} // Make the orbit dashed
         dashSize={2} // Size of the dashes
