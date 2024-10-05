@@ -11,7 +11,7 @@ function Planets({
   radius,
   semiMajorAxis,
   eccentricity,
-  inclination ,
+  inclination,
   longitudeOfAscendingNode = 0,
   argumentOfPeriapsis = 0,
   orbitalPeriod,
@@ -20,7 +20,7 @@ function Planets({
 }) {
   const planetRef = useRef();
   const [hovered, setHovered] = useState(false);
-  const { camera, gl } = useThree();
+  const { camera, gl, scene } = useThree(); // Add scene here
 
   // Function to apply orbital rotations
   const applyOrbitalRotations = (x, y, z) => {
@@ -98,15 +98,16 @@ function Planets({
       duration: 1, // Smooth transition duration
       onUpdate: () => {
         camera.lookAt(planetPos);
-        gl.render();
+        gl.render(scene, camera); // Ensure scene is passed to render
       },
     });
   };
+
   // Function to make the camera follow the planet
   const followPlanet = useRef(false);
   useFrame(({ clock }) => {
     if (followPlanet.current) {
-      const elapsedTime = clock.getElapsedTime();
+      const elapsedTime = clock.getElapsedTime();  
       const angle = (elapsedTime / orbitalPeriod) * 2 * Math.PI;
       const distance =
         (semiMajorAxis * (1 - eccentricity ** 2)) /
@@ -120,6 +121,7 @@ function Planets({
       camera.lookAt(planetPos); // Keep the camera looking at the planet
     }
   });
+
   const handlePlanetClick = () => {
     followPlanet.current = true;
     zoomToPlanet();
