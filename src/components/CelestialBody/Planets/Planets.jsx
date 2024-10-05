@@ -25,10 +25,10 @@ function Planets({ textureUrl, radius, semiMajorAxis, eccentricity, orbitalPerio
     const distance = semiMajorAxis * (1 - eccentricity ** 2) / (1 + eccentricity * Math.cos(angle));
     const x = distance * Math.cos(angle);
     const z = distance * Math.sin(angle);
-
     if (planetRef.current) {
       planetRef.current.position.set(x, 0, z); // Update planet position along orbit
     }
+    planetRef.current.rotation.y += 0.004;
   });
 
   return (
