@@ -32,6 +32,7 @@ const Orrery = () => {
             orbitalPeriod={planet.orbitalPeriod}
             name={planet.name}
             moons={planet.moons}
+            neos={planet.neos}
           />
         ))}
       </Suspense>
