@@ -14,11 +14,13 @@ function Planets({
   semiMajorAxis,
   eccentricity,
   inclination,
+  inclination,
   longitudeOfAscendingNode = 0,
   argumentOfPeriapsis = 0,
   orbitalPeriod,
   moons,
   name,
+  neos,
 }) {
   const planetRef = useRef();
   const [hovered, setHovered] = useState(false);
@@ -99,14 +101,25 @@ function Planets({
     const elapsedTime = clock.getElapsedTime();
     const meanAnomaly = (elapsedTime / orbitalPeriod) * 2 * Math.PI;
 
+
     // Solve Kepler's equation iteratively
     let eccentricAnomaly = meanAnomaly;
     for (let i = 0; i < 10; i++) {
       eccentricAnomaly =
         meanAnomaly + eccentricity * Math.sin(eccentricAnomaly);
+      eccentricAnomaly =
+        meanAnomaly + eccentricity * Math.sin(eccentricAnomaly);
     }
 
+
     // Calculate true anomaly
+    const trueAnomaly =
+      2 *
+      Math.atan(
+        Math.sqrt((1 + eccentricity) / (1 - eccentricity)) *
+          Math.tan(eccentricAnomaly / 2)
+      );
+
     const trueAnomaly =
       2 *
       Math.atan(
@@ -118,9 +131,13 @@ function Planets({
     const r =
       (semiMajorAxis * (1 - eccentricity ** 2)) /
       (1 + eccentricity * Math.cos(trueAnomaly));
+    const r =
+      (semiMajorAxis * (1 - eccentricity ** 2)) /
+      (1 + eccentricity * Math.cos(trueAnomaly));
 
     let x = r * Math.cos(trueAnomaly);
     let y = r * Math.sin(trueAnomaly);
+
 
     // Apply orbital rotations
     const position = applyOrbitalRotations(x, y, 0);
@@ -132,6 +149,7 @@ function Planets({
 
   return (
     <>
+      <Line points={orbitPoints} color="white" lineWidth={1} />
       <Line points={orbitPoints} color="white" lineWidth={1} />
 
       <group ref={planetRef}>
@@ -152,6 +170,8 @@ function Planets({
                 Eccentricity: {eccentricity.toFixed(4)} <br />
                 Inclination: {((inclination * 180) / Math.PI).toFixed(2)}°{" "}
                 <br />
+                Inclination: {((inclination * 180) / Math.PI).toFixed(2)}°{" "}
+                <br />
                 Orbital Period: {orbitalPeriod.toFixed(1)}
               </div>
             </Html>
@@ -169,9 +189,26 @@ function Planets({
             name={moon.name}
           />
         ))}
+
+        {neos?.map((neo, index) => (
+          <Neos
+            key={index}
+            textureUrl={neo.textureUrl}
+            radius={neo.radius}
+            semiMajorAxis={neo.semiMajorAxis}
+            eccentricity={neo.eccentricity} // Added eccentricity
+            inclination={neo.inclination} // Added inclination
+            longitudeOfAscendingNode={neo.longitudeOfAscendingNode} // Added longitudeOfAscendingNode
+            argumentOfPeriapsis={neo.argumentOfPeriapsis} // Added argumentOfPeriapsis
+            orbitalPeriod={neo.orbitalPeriod}
+            parentRef={planetRef}
+            name={neo.name}
+          />
+        ))}
       </group>
     </>
   );
 }
 
 export default Planets;
+

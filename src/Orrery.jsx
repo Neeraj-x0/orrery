@@ -48,6 +48,7 @@ const Orrery = () => {
             name={planet.name}
             moons={planet.moons}
             
+            neos={planet.neos}
           />
         ))}
 
