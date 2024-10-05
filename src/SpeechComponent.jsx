@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { setAction } from "./redux/Action";
+import { setOrbitSpeed, setShowOrbit } from "./redux/astro";
 import { FaMicrophone } from "react-icons/fa6";
 import axios from "axios";
 import { speak } from "./functions";
@@ -68,6 +69,28 @@ function SpeechtoText() {
       if (transcript === "") return;
 
       console.log("Transcript:", transcript);
+      axios
+        .post("http://localhost:3000/query", {
+          text: transcript,
+        })
+        .then(({ data: response }) => {
+          console.log("Response from speechComponent:", response);
+          if (typeof response.result === "string") {
+            console.log("Speaking:");
+            speak(response.result);
+          } else {
+            console.log(response);
+            console.log("Dispatching action:", response.result.action);
+            const action = response.result.action;
+            const target = response.result.target;
+            if (action == "show") {
+              if (target == "orbits") {
+                console.log("Dispatching show orbits");
+                dispatch(setShowOrbit());
+              }
+            }
+          }
+        });
     }
   }, [transcript, dispatch]);
 
