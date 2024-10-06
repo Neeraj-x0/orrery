@@ -13,7 +13,6 @@ function Neos({
   argumentOfPeriapsis = 0,
   orbitalPeriod,
   parentRef,
-  name,
   color,
 }) {
   const NeosRef = useRef();
