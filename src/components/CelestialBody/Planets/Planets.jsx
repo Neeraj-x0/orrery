@@ -8,7 +8,7 @@ import Moon from "../Moons/Moon";
 import Neos from "../Neos/Neos";
 import { setPosition } from "../../../redux/astro";
 import { useDispatch, useSelector } from "react-redux";
-
+ 
 function Planets({
   textureUrl,
   radius,

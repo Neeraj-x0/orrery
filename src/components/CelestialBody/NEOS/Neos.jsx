@@ -41,7 +41,7 @@ function Neos({
     const zFinal = zIncl;
 
     return new THREE.Vector3(xFinal, zFinal, yFinal);
-  };
+  }; 
 
   // Calculate the points for the NEO's orbit using Keplerian parameters
   const orbitPoints = [];
