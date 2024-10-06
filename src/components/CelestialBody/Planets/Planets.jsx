@@ -5,7 +5,7 @@ import * as THREE from "three";
 import gsap from "gsap";
 import "./Planets.css";
 import Moon from "../Moons/Moon";
-import Neos from "../Neos/Neos";
+import Neos from "../Neos";
 import { setPosition } from "../../../redux/astro";
 import { useDispatch, useSelector } from "react-redux";
  
