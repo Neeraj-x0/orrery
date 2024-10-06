@@ -6,6 +6,7 @@ import {
   setShowOrbit,
   setShowLabel,
   setShowQuiz,
+  setQuiz,
 } from "./redux/astro";
 
 import { FaMicrophone } from "react-icons/fa6";
@@ -140,6 +141,13 @@ function SpeechtoText() {
                   }
                 }
 
+                break;
+              case "follow":
+                console.log("Dispatching follow" + target);
+              case "quiz":
+                console.log("Dispatching quiz");
+                dispatch(setShowQuiz());
+                dispatch(setQuiz(JSON.parse(response.result.data)));
                 break;
 
               default:
