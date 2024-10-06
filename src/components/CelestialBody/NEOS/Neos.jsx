@@ -58,6 +58,22 @@ function Neos({
     orbitPoints.push(rotatedPoint);
   }
 
+  // Function to displace vertices for a rough, irregular shape
+  const createAsteroidGeometry = (radius) => {
+    const geometry = new THREE.DodecahedronGeometry(radius, 1); // Using Dodecahedron for more irregularity
+      
+    // Displace vertices to make the shape look more irregular
+    const positionAttribute = geometry.getAttribute("position");
+    const vertex = new THREE.Vector3();
+    for (let i = 0; i < positionAttribute.count; i++) {
+      vertex.fromBufferAttribute(positionAttribute, i);
+      vertex.multiplyScalar(1 + 0.3 * (Math.random() - 0.5)); // Randomly displace vertices
+      positionAttribute.setXYZ(i, vertex.x, vertex.y, vertex.z);
+    }
+    geometry.computeVertexNormals();
+    return geometry;
+  };
+
   useFrame(({ clock }) => {
     const elapsedTime = clock.getElapsedTime();
     const meanAnomaly = (elapsedTime / orbitalPeriod) * 2 * Math.PI;
@@ -104,8 +120,7 @@ function Neos({
         dashSize={2} // Size of the dashes
         gapSize={0.8} // Gap between dashes
       />
-      <mesh ref={NeosRef}>
-        <sphereGeometry args={[radius, 32, 32]} />
+      <mesh ref={NeosRef} geometry={createAsteroidGeometry(radius)}>
         <meshStandardMaterial
           map={new THREE.TextureLoader().load(textureUrl)}
         />

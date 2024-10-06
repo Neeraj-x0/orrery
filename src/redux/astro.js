@@ -5,6 +5,8 @@ const initialState = {
   position: [0, 6, 0],
   orbitSpeed:1,
   showOrbit:true,
+  showLabel:true,
+  showQuiz:false
 };
 
 const astroSlice = createSlice({
@@ -18,12 +20,16 @@ const astroSlice = createSlice({
       state.orbitSpeed=action.payload;
     },setShowOrbit:(state)=>{
       state.showOrbit=!state.showOrbit
+    },setShowLabel:(state)=>{
+      state.showLabel=!state.showLabel
+    },setShowQuiz:(state)=>{
+      state.showQuiz=!state.showQuiz
     }
   },
 });
 
 // Export actions
-export const { setPosition,setOrbitSpeed,setShowOrbit } = astroSlice.actions;
+export const { setPosition,setOrbitSpeed,setShowOrbit,setShowLabel,setShowQuiz } = astroSlice.actions;
 
 // Export reducer
 export default astroSlice.reducer;

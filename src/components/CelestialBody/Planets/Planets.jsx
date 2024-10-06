@@ -28,6 +28,7 @@ function Planets({
   const planetRef = useRef();
   const orbitSpeed = useSelector((state)=>state.astro.orbitSpeed);
   const showOrbit = useSelector((state)=>state.astro.showOrbit);
+  const showLabel = useSelector((state)=>state.astro.showLabel);
   const [hovered, setHovered] = useState(false);
   const { camera, gl } = useThree();
   const dispatch = useDispatch();
@@ -197,7 +198,7 @@ function Planets({
         </mesh>
 
         {/* Text component for planet name */}
-        <Text
+        {showLabel&&<Text
           position={[0, radius + 0.5, 0]} // Adjust the position above the planet
           fontSize={0.5} // Adjust the font size as needed
           color="white" // Adjust the color as needed
@@ -206,7 +207,7 @@ function Planets({
           rotation={[0, Math.PI / 2, 0]} // Rotate text to face the camera
         >
           {name}
-        </Text>
+        </Text>}
 
         {moons?.map((moon, index) => (
           <Moon

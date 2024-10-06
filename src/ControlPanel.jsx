@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import SpeechComponent from "./SpeechComponent";
-import { setOrbitSpeed, setShowOrbit } from "./redux/astro";
+import { setOrbitSpeed, setShowLabel, setShowOrbit, setShowQuiz } from "./redux/astro";
 
 function ControlPanel() {
 const orbitSpeed = useSelector((state)=>state.astro.orbitSpeed);
@@ -31,7 +31,7 @@ const orbitSpeed = useSelector((state)=>state.astro.orbitSpeed);
         <div className="w-full flex justify-between">
           <label className="text-gray-200">Orbital Labels</label>
           <label className="switch">
-            <input type="checkbox" />
+            <input type="checkbox" defaultChecked onChange={()=>dispatch(setShowLabel())} />
             <span className="slider round"></span>
           </label>
         </div>
@@ -47,7 +47,7 @@ const orbitSpeed = useSelector((state)=>state.astro.orbitSpeed);
         <div className="w-full flex justify-between">
           <label className="text-gray-200">Educational Mode</label>
           <label className="switch">
-            <input type="checkbox" />
+            <input type="checkbox" onChange={()=>dispatch(setShowQuiz())} />
             <span className="slider round"></span>
           </label>
         </div>
@@ -55,7 +55,6 @@ const orbitSpeed = useSelector((state)=>state.astro.orbitSpeed);
       <div className="w-full flex justify-center items-center">
       <SpeechComponent />
       </div>
-    
     </div>
   );
 }

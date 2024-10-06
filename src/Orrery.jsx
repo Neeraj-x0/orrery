@@ -9,8 +9,7 @@ import { TextureLoader } from "three";
 import { useSelector } from "react-redux";
 
 const Orrery = ({ speed }) => {
-  const texture = useLoader(TextureLoader, "/astro.png");
-  const astroPosition = useSelector((state) => state.astro.position);
+  const showQuiz = useSelector((state) => state.astro.showQuiz);
 
   return (
     <Canvas
@@ -18,35 +17,46 @@ const Orrery = ({ speed }) => {
       camera={{ fov: 50, position: [0, 0, 30] }}
     >
       <OrbitControls />
-      <mesh position={astroPosition}>
-        <sphereGeometry args={[0.3, 32, 32]} />
-        <meshStandardMaterial map={texture} />
-      </mesh>
+
       {/* Starry background */}
-      <Html>
-        <div style={{display:"flex",alignItems:"center",zIndex:100,position:"absolute",top:-350,right:-400}}>
-          <img src="/astro.png" alt="astronaut" />
-          <div style={{width:"700px",height:"200px",backgroundColor:"rgba(128, 128, 128, 0.1)", backdropFilter: "blur(6px)",padding:"20px",borderRadius:"5px",color:"white"}}>
-            <form>
-              <p>Which planet is known as the Red Planet?</p>
-              <label>
-                <input type="radio" name="quiz" value="Earth" />
-                Earth
-              </label>
-              <br />
-              <label>
-                <input type="radio" name="quiz" value="Mars" />
-                Mars
-              </label>
-              <br />
-              <label>
-                <input type="radio" name="quiz" value="Jupiter" />
-                Jupiter
-              </label>
-            </form>
+      {showQuiz && (
+        <Html>
+          <div
+            className="fade-in fade-in-up"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              zIndex: 100,
+              position: "absolute",
+              top: -350,
+              right: -400,
+            }}
+          >
+            <img src="/astro.png" alt="astronaut" />
+            <div
+              style={{
+                width: "700px",
+                height: "200px",
+                backgroundColor: "rgba(128, 128, 128, 0.1)",
+                backdropFilter: "blur(6px)",
+                padding: "20px",
+                borderRadius: "5px",
+                color: "white",
+              }}
+            >
+              <h1 className="text-3xl font-bold text-gray-200 mb-8">
+                Web Orrery
+              </h1>
+              <p className="text-gray-200">
+                Welcome to the Web Orrery, an educational tool that simulates
+                the solar system. Use the control panel to adjust the orbital
+                speed, display orbital paths, and toggle labels. For a quiz on
+                the solar system, click the button below.
+              </p>
+            </div>
           </div>
-        </div>
-      </Html>
+        </Html>
+      )}
       <Stars
         radius={100} // Radius of the starfield sphere
         depth={50} // Starfield depth to give a 3D effect
