@@ -77,7 +77,7 @@ function SpeechtoText() {
 
       console.log("Transcript:", transcript);
       axios
-        .post("http://localhost:3000/query", {
+        .post("https://voicegisapi.neerajx0.xyz/query", {
           text: transcript,
         })
         .then(({ data: response }) => {
@@ -125,7 +125,7 @@ function SpeechtoText() {
                     console.log("Dispatching increase speed");
                     dispatch(setOrbitSpeed(currentSpeed + 1));
                   }
-                }else if (change === "decrease") {
+                } else if (change === "decrease") {
                   if (currentSpeed === 1) {
                     console.log("Speed already at minimum");
                     speak("Speed already at minimum");

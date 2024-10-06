@@ -21,7 +21,7 @@ function ControlPanel() {
   // Function to handle quiz request
   const handleQuizRequest = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/quiz", {
+      const response = await axios.post("https://voicegisapi.neerajx0.xyz/quiz", {
         text: selectedTopic,
       });
       console.log("Quiz Response:", response.data);
