@@ -1,15 +1,57 @@
-import React, { Suspense, useRef } from "react";
-import { Canvas, useLoader } from "@react-three/fiber";
+import React, { Suspense, useState, useEffect } from "react";
+import { Canvas } from "@react-three/fiber";
 import { Html, OrbitControls, Stars } from "@react-three/drei";
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader"; // Import OBJLoader
 import Sun from "./components/CelestialBody/Planets/Sun/Sun";
 import Planets from "./components/CelestialBody/Planets/Planets";
 import planets from "./assets/planets";
-import { TextureLoader } from "three";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setQuiz } from "./redux/astro";
+import { speak } from "./functions";
 
 const Orrery = ({ speed }) => {
   const showQuiz = useSelector((state) => state.astro.showQuiz);
+  const quiz = useSelector((state) => state.astro.Quiz);
+  const dispatch = useDispatch();
+
+  // State to handle selected answer and feedback
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [feedback, setFeedback] = useState(null);
+
+  // Use useEffect to trigger TTS when feedback or quiz question changes
+  useEffect(() => {
+    if (feedback) {
+      speak(feedback);
+    }
+  }, [feedback]);
+
+  useEffect(() => {
+    if (quiz) speak(quiz.question);
+  }, [quiz]);
+
+  // Function to handle answer selection
+  const handleAnswerClick = (option) => {
+    setSelectedAnswer(option);
+
+    if (option === quiz.answer) {
+      setFeedback(
+        "Good one! Keep it up! Want to do one more? Choose the field in which you want to do the quiz from the panel on the left side."
+      );
+    } else {
+      setFeedback("Oops, that's not correct! Try again.");
+    }
+
+    // Reset feedback after some time (e.g., 5 seconds)
+    setTimeout(() => {
+      setFeedback(null);
+      setSelectedAnswer(null);
+      setQuiz(null);
+    }, 5000);
+  };
+
+  // Function to close quiz panel
+  const handleCloseQuiz = () => {
+    dispatch(setQuiz(null)); // Hide the quiz when the close button is clicked
+  };
 
   return (
     <Canvas
@@ -28,31 +70,91 @@ const Orrery = ({ speed }) => {
               alignItems: "center",
               zIndex: 100,
               position: "absolute",
-              top: -350,
-              right: -400,
+              top: -250,
+              right: -350,
             }}
           >
-            <img src="/astro.png" alt="astronaut" />
+            <img
+              src="/astro.png"
+              alt="astronaut"
+              style={{
+                width: "100px",
+                marginRight: "10px",
+                marginBottom: "70px",
+              }}
+            />
             <div
               style={{
-                width: "700px",
-                height: "200px",
-                backgroundColor: "rgba(128, 128, 128, 0.1)",
-                backdropFilter: "blur(6px)",
+                width: "500px",
+                height: "auto",
+                backgroundColor: "rgba(28, 28, 28, 0.9)",
+                backdropFilter: "blur(10px)",
                 padding: "20px",
-                borderRadius: "5px",
+                borderRadius: "10px",
+                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.5)",
                 color: "white",
+                position: "relative",
               }}
             >
-              <h1 className="text-3xl font-bold text-gray-200 mb-8">
-                Web Orrery
-              </h1>
-              <p className="text-gray-200">
-                Welcome to the Web Orrery, an educational tool that simulates
-                the solar system. Use the control panel to adjust the orbital
-                speed, display orbital paths, and toggle labels. For a quiz on
-                the solar system, click the button below.
-              </p>
+              {/* Close button */}
+              <button
+                onClick={handleCloseQuiz}
+                style={{
+                  position: "absolute",
+                  top: "10px",
+                  right: "10px",
+                  background: "transparent",
+                  border: "none",
+                  color: "white",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                }}
+              >
+                &times;
+              </button>
+
+              {quiz ? (
+                <div className="flex flex-col">
+                  <h1 className="text-2xl font-bold text-gray-200 mb-4">
+                    {quiz.question}
+                  </h1>
+                  <div className="flex flex-col">
+                    {quiz.options.map((option, index) => (
+                      <button
+                        key={index}
+                        className={`bg-blue-600 text-white px-4 py-2 rounded-md mt-2 transition-transform transform hover:scale-105 ${
+                          selectedAnswer === option
+                            ? option === quiz.answer
+                              ? "bg-green-500"
+                              : "bg-red-500"
+                            : ""
+                        }`}
+                        onClick={() => handleAnswerClick(option)}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                    {/* Feedback */}
+                    {feedback && (
+                      <div className="mt-4">
+                        <p className="text-lg text-gray-300">{feedback}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-200 mb-4">
+                    Web Orrery
+                  </h1>
+                  <p className="text-gray-200 text-base leading-relaxed">
+                    Welcome to the Web Orrery, an educational tool that
+                    simulates the solar system. Use the control panel to adjust
+                    the orbital speed, display orbital paths, and toggle labels.
+                    For a quiz on the solar system, click the button below.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </Html>

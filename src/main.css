@@ -120,3 +120,22 @@
       transform: translateY(0);
     }
   }
+
+  .scrolldown-in{
+    animation: scrolldown ease 3s;
+    -webkit-animation: scrolldown ease 3s;
+    -moz-animation: scrolldown ease 3s;
+    -o-animation: scrolldown ease 3s;
+    -ms-animation: scrolldown ease 3s;
+  }
+    @keyframes scrolldown{
+        0% {
+        opacity:0;
+        transform: translateY(-50px);
+        }
+        100% {
+        opacity:1;
+        transform: translateY(0);
+        }
+    }
+    

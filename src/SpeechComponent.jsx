@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAction } from "./redux/Action";
-import { setOrbitSpeed, setShowOrbit } from "./redux/astro";
+import {
+  setOrbitSpeed,
+  setShowOrbit,
+  setShowLabel,
+  setShowQuiz,
+} from "./redux/astro";
+
 import { FaMicrophone } from "react-icons/fa6";
 import axios from "axios";
 import { speak } from "./functions";
@@ -13,6 +19,7 @@ function SpeechtoText() {
   const [audioLevel, setAudioLevel] = useState(0);
   const analyserRef = useRef(null);
   const animationFrameRef = useRef(null);
+  const currentSpeed = useSelector((state) => state.astro.orbitSpeed);
 
   useEffect(() => {
     if (!("webkitSpeechRecognition" in window)) {
@@ -75,19 +82,69 @@ function SpeechtoText() {
         })
         .then(({ data: response }) => {
           console.log("Response from speechComponent:", response);
+
+          // Check if the response result is a string (voice output)
           if (typeof response.result === "string") {
-            console.log("Speaking:");
+            console.log("Speaking:", response.result);
             speak(response.result);
           } else {
-            console.log(response);
-            console.log("Dispatching action:", response.result.action);
-            const action = response.result.action;
-            const target = response.result.target;
-            if (action == "show") {
-              if (target == "orbits") {
-                console.log("Dispatching show orbits");
-                dispatch(setShowOrbit());
-              }
+            // Handle non-string responses (actions)
+            const { action, target, change, value } = response.result;
+
+            console.log("Dispatching action:", action);
+
+            switch (action) {
+              case "show":
+                if (target === "orbits") {
+                  console.log("Dispatching show orbits");
+                  dispatch(setShowOrbit());
+                } else if (target === "labels") {
+                  console.log("Dispatching show labels");
+                  dispatch(setShowLabel());
+                }
+                break;
+              case "hide":
+                if (target === "orbits") {
+                  console.log("Dispatching hide orbits");
+                  dispatch(setShowOrbit());
+                } else if (target === "labels") {
+                  console.log("Dispatching hide labels");
+                  dispatch(setShowLabel());
+                }
+              case "speed":
+                if (change === "increase") {
+                  if (currentSpeed === 30) {
+                    console.log("Speed already at maximum");
+                    speak("Speed already at maximum");
+                    return;
+                  }
+                  if (value) {
+                    console.log("Dispatching set speed");
+                    dispatch(setOrbitSpeed(currentSpeed + value));
+                  } else {
+                    console.log("Dispatching increase speed");
+                    dispatch(setOrbitSpeed(currentSpeed + 1));
+                  }
+                }else if (change === "decrease") {
+                  if (currentSpeed === 1) {
+                    console.log("Speed already at minimum");
+                    speak("Speed already at minimum");
+                    return;
+                  }
+                  if (value) {
+                    console.log("Dispatching set speed");
+                    dispatch(setOrbitSpeed(currentSpeed - value));
+                  } else {
+                    console.log("Dispatching decrease speed");
+                    dispatch(setOrbitSpeed(currentSpeed - 1));
+                  }
+                }
+
+                break;
+
+              default:
+                console.log("Unknown action:", action);
+                break;
             }
           }
         });

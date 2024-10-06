@@ -1,0 +1,68 @@
+const data = [
+  {
+    name: "Mercury",
+    radius_in_km: 2439.7,
+    mass_in_kg: "3.30 × 10^23",
+    FromSun: 0.39,
+    NaturalSatellites: 0,
+    Inclination: 7.0,
+  },
+  {
+    name: "Venus",
+    radius_in_km: 6051.8,
+    mass_in_kg: "4.87 × 10^24",
+    FromSun: 0.72,
+    NaturalSatellites: 0,
+    Inclination: 3.39,
+  },
+  {
+    name: "Earth",
+    radius_in_km: 6371.0,
+    mass_in_kg: "5.97 × 10^24",
+    FromSun: 1.0,
+    NaturalSatellites: 1,
+    Inclination: 0.0,
+  },
+  {
+    name: "Mars",
+    radius_in_km: 3389.5,
+    mass_in_kg: "6.42 × 10^23",
+    FromSun: 1.52,
+    NaturalSatellites: 2,
+    Inclination: 1.85,
+  },
+  {
+    name: "Jupiter",
+    radius_in_km: 69911,
+    mass_in_kg: "1.90 × 10^27",
+    FromSun: 5.2,
+    NaturalSatellites: 79,
+    Inclination: 1.31,
+  },
+  {
+    name: "Saturn",
+    radius_in_km: 58232,
+    mass_in_kg: "5.68 × 10^26",
+    FromSun: 9.58,
+    NaturalSatellites: 83,
+    Inclination: 2.49,
+  },
+  {
+    name: "Uranus",
+    radius_in_km: 25362,
+    mass_in_kg: "8.68 × 10^25",
+    FromSun: 19.2,
+    NaturalSatellites: 27,
+    Inclination: 0.77,
+  },
+  {
+    name: "Neptune",
+    radius_in_km: 24622,
+    mass_in_kg: "1.02 × 10^26",
+    FromSun: 30.05,
+    NaturalSatellites: 14,
+    Inclination: 1.77,
+  },
+];
+
+export default data;
